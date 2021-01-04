@@ -1,2 +1,19 @@
 # Cryptocurrency-Chrome-extension
 A Google Chrome extension which displays information about a cryptocurrency in a popup when the user selects a coin ticker ($BTC) and presses CTRL+SHIFT+F.
+
+## Previews
+### Ethereum USD pop-up on Twitter
+<p align="center"> 
+  <img src="images/CG_twitter_extension_screenshot_ETH_USD.png" alt="Ethereum USD pop-up on Twitter" width="800" >
+</p>
+
+### Ethereum BTC pop-up on Twitter
+<p align="center"> 
+  <img src="images/CG_twitter_extension_screenshot_ETH_BTC.png" alt="Ethereum BTC pop-up on Twitter" width="800" >
+</p>
+
+### VeChain USD pop-up on Whatsapp
+<p align="center"> 
+  <img src="images/CG_Whatsapp_extension_screenshot_VET_USD.png" alt="VeChain USD pop-up on Whatsapp" width="800" >
+</p>
+
