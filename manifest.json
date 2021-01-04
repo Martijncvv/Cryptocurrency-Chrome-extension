@@ -1,0 +1,46 @@
+{
+  "name": "Cryptocurrency Ticker Explorer",
+  "description" : "Display data from CoinGecko about the selected cryptocurrency ticker.",
+  "version": "0.0.0.1",
+
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "images/coingecko_logo.png",
+    "default_title": "Lookup coin info"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": [
+    "activeTab"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_security_policy": "script-src 'self' https://www.gstatic.com/charts/loader.js; script-src-elem 'self' https://www.gstatic.com; object-src 'self'",
+
+  "icons": {
+    "16": "images/coingecko_logo_16.png",
+    "32": "images/coingecko_logo_32.png",
+    "48": "images/coingecko_logo_48.png",
+    "128": "images/coingecko_logo_128.png" 
+  },
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      },
+      "description": "Opens CG popup.html"
+    }
+  },
+
+  "manifest_version": 2
+}
+  

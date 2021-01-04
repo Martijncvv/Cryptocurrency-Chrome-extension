@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script type='text/javascript' src='popup.js'></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <div id="top_wrapper" class="wrapper">
+      <div id="coin_image_box">
+        <img id="coin_image">
+      </div>
+      <div id="coin_name_box">
+        <h1 id="coin_name">Not Found</h1>
+      </div>
+    </div>
+
+    <div id="bottom_wrapper">
+    <div id="pair_switch_box">
+      <button type="button" id="pair_switch">BTC</button>
+    </div>
+      <div id="coin_info_headers_box">
+        <ul>
+          <li class="info_header_line"><span id="coin_ticker"></span> Price</li>
+          <li class="info_header_line">Market Cap (rank)</li>
+          <li class="info_header_line">Total Volume (24h)</li>
+          <li class="info_header_line">All-Time High</li>
+          <li class="info_header_line">All-Time Low</li>
+          <li class="info_header_line">Circ. Supply (total)</li>
+          <li class="info_header_line">CG Sentiment Up</li>
+          <li class="info_header_line">Links</li>
+          <li class="info_header_line" id="description_header">Description</li>
+        </ul>
+      </div>
+
+      <div id="coin_info_box">
+        <ul>
+          <li class="coin_info_line" id="coin_current_price"> </li>
+          <li class="coin_info_line" id="coin_mc"> </li>
+          <li class="coin_info_line" id="coin_total_volume"> </li>
+          <li class="coin_info_line" id="coin_ath"> </li>
+          <li class="coin_info_line" id="coin_atl"> </li>
+          <li class="coin_info_line" id="coin_circ_supply_total"> </li>
+          <li class="coin_info_line" id="coin_senti_up"> </li>
+
+          <li class="coin_info_line" id="coin_website_icons"> 
+            <a id="coin_website" href="default.asp"  target="_blank">
+              <img id="website_icon" class="coin_icons" src="images\Website_Icon_Circle_Color.png"> 
+            </a>
+            <a id="coin_blockexplorer" href="default.asp"  target="_blank" class="tooltip">
+                <img id="coin_blockexplorer_icon" class="coin_icons" src="images\Coin_blockexplorer_Icon_Circle_Color.png"> 
+            </a>
+            <a id="coin_coingecko" href="default.asp"  target="_blank">
+              <img id="coingecko_icon" class="coin_icons" src="images\Coingecko_Icon_Circle_Color.png"> 
+            </a>
+            <a id="coin_telegram" href="default.asp"  target="_blank">
+                <img id="telegram_icon" class="coin_icons" src="images\Telegram_Social_Icon_Circle_Color.png"> 
+            </a>
+            <a id="coin_twitter" href="default.asp"  target="_blank">
+                <img id="twitter_icon" class="coin_icons" src="images\Twitter_Social_Icon_Circle_Color.png"> 
+            </a>  
+          </li> 
+
+          <li class="coin_info_line" id="description_header"> </li>
+        </ul>
+      </div>
+    </div>
+    <div id="coin_description_box">
+      <p id="coin_description"></p>
+    </div>
+    <div id="descr_preview_box">
+      <p id="descr_preview"> </p> 
+    </div>
+    <div id="read_more_button">Read more</div>
+
+    <div id="price_chart"> </div>
+      
+    <div id="footer">
+      <p>Powered by CoinGecko API <img id="coingecko_footer_icon" src="images\Coingecko_Icon_Circle_Color.png"> </p> 
+    </div>
+
+  </body>  
+</html>
