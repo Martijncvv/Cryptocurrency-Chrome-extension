@@ -1,3 +1,4 @@
+// Twitter: Martijncvv
 document.addEventListener('DOMContentLoaded', function () {
     // checks if user changes quote value to USD or BTC
     let pair_btn = document.getElementById('pair_switch');
@@ -31,7 +32,7 @@ let bg_page = chrome.extension.getBackgroundPage();
 let coin_ticker = bg_page.coin_ticker.ticker;
 if (coin_ticker != undefined) {
     let ticker = coin_ticker.replace(/[#$?!.,:]/g, "");
-    display_coin_info("usd", ticker);
+    display_coin_info("usd", ticker.toLowerCase());
 }
 
 function display_coin_info(quote, ticker) {
@@ -41,7 +42,7 @@ function display_coin_info(quote, ticker) {
     .then(coin_list => { 
         // loops over coin list and checks if there is a coin with the ticker
         coin_list.forEach((coin) => {
-            if (coin["symbol"] == ticker.toLowerCase()) {
+            if (coin["symbol"] == ticker) {
                 // if coin exists, gets info about coin
                 fetch("https://api.coingecko.com/api/v3/coins/" + coin["id"]+ "?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false") 
                 .then(response => response.json())
@@ -54,13 +55,16 @@ function display_coin_info(quote, ticker) {
 
                     // sets usd quote values
                     if (quote == "usd") {
+                        // pair switch
                         document.getElementById("pair_switch").innerHTML = coin.symbol + "/btc";
+                        // price usd
                         if (coin.market_data.current_price.usd > 10000) {
                             document.getElementById("coin_current_price").innerHTML = "$" + coin.market_data.current_price.usd.toPrecision(3)/1000 + " K ";
                         }
                         else {
-                            document.getElementById("coin_current_price").innerHTML = "$" + coin.market_data.current_price.usd.toPrecision(3);
+                            document.getElementById("coin_current_price").innerHTML = "$" + coin.market_data.current_price.usd.toPrecision(4);
                         }
+                        // volume usd
                         if (coin.market_data.total_volume.usd > 1000000000) {
                             document.getElementById("coin_total_volume").innerHTML = "$" + (coin.market_data.total_volume.usd / 1000000000).toPrecision(3) + " B";
                         }
@@ -70,13 +74,15 @@ function display_coin_info(quote, ticker) {
                         else {
                             document.getElementById("coin_total_volume").innerHTML = "$" + (coin.market_data.total_volume.usd / 1000).toPrecision(3) + " K";
                         }
-                        if (coin.market_data.ath.usd > 10000) {
+                        // ath usd
+                        if (coin.market_data.ath.usd > 1000) {
                             document.getElementById("coin_ath").innerHTML = "$" + coin.market_data.ath.usd.toPrecision(3)/1000 + " K ";
                         }
                         else {
                             document.getElementById("coin_ath").innerHTML = "$" + coin.market_data.ath.usd.toPrecision(3);
                         }
-                        if (coin.market_data.atl.usd > 10000) {
+                        // atl usd
+                        if (coin.market_data.atl.usd > 1000) {
                             document.getElementById("coin_atl").innerHTML = "$" + coin.market_data.atl.usd.toPrecision(3)/1000 + " K ";
                         }
                         else {
@@ -89,6 +95,8 @@ function display_coin_info(quote, ticker) {
                         document.getElementById("coin_current_price").innerHTML = "&#8383;" + coin.market_data.current_price.btc.toPrecision(3);
                         document.getElementById("coin_ath").innerHTML = "&#8383;" + coin.market_data.ath.btc.toPrecision(3);
                         document.getElementById("coin_atl").innerHTML = "&#8383;" + coin.market_data.atl.btc.toPrecision(3);
+                        
+                        // volume btc
                         if (coin.market_data.total_volume.btc > 1000000) {
                             document.getElementById("coin_total_volume").innerHTML = "&#8383;" + (coin.market_data.total_volume.btc / 10000000).toPrecision(3) + " M";
                         }
@@ -100,19 +108,38 @@ function display_coin_info(quote, ticker) {
                         }
                     }
                     // sets other coin information
+                    let mc_rank = coin.market_cap_rank;
+                    if (mc_rank == null) {
+                        mc_rank = "?";
+                    }
+                    // market cap + rank
                     if (coin.market_data.market_cap.usd > 1000000000) {
-                        document.getElementById("coin_mc").innerHTML = "$" +(coin.market_data.market_cap.usd / 1000000000).toPrecision(3) + " B " + " (" + coin.market_cap_rank + ")";
+                        document.getElementById("coin_mc").innerHTML = "$" +(coin.market_data.market_cap.usd / 1000000000).toPrecision(3) + " B " + " (" + mc_rank + ")";
                     }
                     else {
-                        document.getElementById("coin_mc").innerHTML = "$" +(coin.market_data.market_cap.usd / 1000000).toPrecision(3) + " M " + " (" + coin.market_cap_rank + ")";
+                        document.getElementById("coin_mc").innerHTML = "$" +(coin.market_data.market_cap.usd / 1000000).toPrecision(3) + " M " + " (" + mc_rank + ")";
                     }
                     
-                    if (coin.market_data.circulating_supply > 1000000000) {
-                        document.getElementById("coin_circ_supply_total").innerHTML = (coin.market_data.circulating_supply / 1000000000).toPrecision(3) + " B (" + (coin.market_data.total_supply /1000000000).toPrecision(3) + " B)";
+                    // total supply
+                    let total_supply = coin.market_data.total_supply;
+                    if (total_supply == null) {
+                        total_supply = " (&#8734;)"
+                    }
+                    else if (total_supply >= 1000000000) {
+                        total_supply = " B (" + (coin.market_data.total_supply /1000000000).toPrecision(3) + " B)"
                     }
                     else {
-                        document.getElementById("coin_circ_supply_total").innerHTML = (coin.market_data.circulating_supply / 1000000).toPrecision(3) + " M (" + (coin.market_data.total_supply / 1000000).toPrecision(3) + " M)";
+                        total_supply = " M (" + (coin.market_data.total_supply / 1000000).toPrecision(3) + " M)"
                     }
+
+                    // circulating supply
+                    if (coin.market_data.circulating_supply > 1000000000) {
+                        document.getElementById("coin_circ_supply_total").innerHTML = (coin.market_data.circulating_supply / 1000000000).toPrecision(3) + total_supply;
+                    }
+                    else {
+                        document.getElementById("coin_circ_supply_total").innerHTML = (coin.market_data.circulating_supply / 1000000).toPrecision(3) + total_supply;
+                    }
+                    // coingecko sentiment
                     document.getElementById("coin_senti_up").innerHTML = coin.sentiment_votes_up_percentage.toPrecision(3) + "%";
 
                     // displays icons and sets website links if available
@@ -145,7 +172,6 @@ function display_coin_info(quote, ticker) {
                     if (coin.description.en.length != 0) {
                         document.getElementById("descr_preview").innerHTML = coin.description.en;
                         document.getElementById("coin_description").innerHTML = coin.description.en;
-                        document.getElementById('read_more_button').style.display = "flex";
                     }
                     else {
                         document.getElementById("descr_preview").innerHTML = "No description available";
@@ -233,8 +259,7 @@ function display_coin_info(quote, ticker) {
                                 chartArea: {
                                     top: 20,
                                     width: '91%', 
-                                    height: '100%',
-                                   
+                                    height: '100%',  
                                 },
                                 lineWidth: 1,
                                 colors: ['#ff8a4f'],                                
