@@ -50,8 +50,11 @@ function display_coin_info(quote, ticker) {
                     console.log(coin);
                     // creates all coin data elements in HTML
                     document.getElementById("coin_image").setAttribute("src", coin.image.large );
-                    document.getElementById("coin_name").innerHTML = coin.name + " ";
+                    // document.getElementById("coin_name").innerHTML = coin.name + " ";
+                    document.getElementById("coin_name").innerHTML = coin.name;
                     document.getElementById("coin_ticker").innerHTML = coin.symbol;
+
+                    (coin.name.length > 15) ? document.getElementById('coin_name').style.fontSize = "large" : document.getElementById('coin_name').style.fontSize = "x-large";
 
                     // sets usd quote values
                     if (quote == "usd") {
@@ -113,7 +116,10 @@ function display_coin_info(quote, ticker) {
                         mc_rank = "?";
                     }
                     // market cap + rank
-                    if (coin.market_data.market_cap.usd > 1000000000) {
+                    if (coin.market_data.market_cap.usd > 1000000000000) {
+                        document.getElementById("coin_mc").innerHTML = "$" +(coin.market_data.market_cap.usd / 1000000000000).toPrecision(3) + " T " + " (" + mc_rank + ")";
+                    }
+                    else if (coin.market_data.market_cap.usd > 1000000000) {
                         document.getElementById("coin_mc").innerHTML = "$" +(coin.market_data.market_cap.usd / 1000000000).toPrecision(3) + " B " + " (" + mc_rank + ")";
                     }
                     else {
@@ -126,18 +132,18 @@ function display_coin_info(quote, ticker) {
                         total_supply = " (&#8734;)"
                     }
                     else if (total_supply >= 1000000000) {
-                        total_supply = " B (" + (coin.market_data.total_supply /1000000000).toPrecision(3) + " B)"
+                        total_supply = " (" + (coin.market_data.total_supply /1000000000).toPrecision(3) + " B)"
                     }
                     else {
-                        total_supply = " M (" + (coin.market_data.total_supply / 1000000).toPrecision(3) + " M)"
+                        total_supply = " (" + (coin.market_data.total_supply / 1000000).toPrecision(3) + " M)"
                     }
 
                     // circulating supply
                     if (coin.market_data.circulating_supply > 1000000000) {
-                        document.getElementById("coin_circ_supply_total").innerHTML = (coin.market_data.circulating_supply / 1000000000).toPrecision(3) + total_supply;
+                        document.getElementById("coin_circ_supply_total").innerHTML = (coin.market_data.circulating_supply / 1000000000).toPrecision(3) + " B " + total_supply;
                     }
                     else {
-                        document.getElementById("coin_circ_supply_total").innerHTML = (coin.market_data.circulating_supply / 1000000).toPrecision(3) + total_supply;
+                        document.getElementById("coin_circ_supply_total").innerHTML = (coin.market_data.circulating_supply / 1000000).toPrecision(3) + " M " + total_supply;
                     }
                     // coingecko sentiment
                     document.getElementById("coin_senti_up").innerHTML = coin.sentiment_votes_up_percentage.toPrecision(3) + "%";
@@ -271,6 +277,19 @@ function display_coin_info(quote, ticker) {
                     }); 
                 });
             }    
+            else {
+                document.getElementById("descr_preview").innerHTML = `Not Found?\n
+                1) Check if you selected a ticker (BTC/ETH) with your cursor. \n 
+                2) Coin not available on CoinGecko.\n
+                3) Restart the Chrome browser.`;
+                document.getElementById("coin_description").innerHTML = `Not Found?\n
+                1) Check if you selected a ticker (BTC/ETH) with your cursor.\n 
+                2) Coin not available on CoinGecko.\n
+                3) Restart the Chrome browser.`;
+            }
         });
     });   
 }
+
+
+const filterByID = data.filter(students => students.id === "12")
